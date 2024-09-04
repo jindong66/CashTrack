@@ -6,6 +6,8 @@ import router from "@/router"
 // 别名路径
 import sum from '@/test'
 
+import "./theme.css"
+
 const total = sum(1, 3)
 console.log(total)
 
