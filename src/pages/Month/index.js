@@ -9,7 +9,7 @@ import _ from 'lodash'
 const Month = () => {
     // 按月做数据的分组
     const billList = useSelector(state => state.bill.billList)
-    const monthGroup = useMemo(()=>{
+    const monthGroup = useMemo(() => {
         // return出去计算之后的值
         return _.groupBy(billList, (item) => dayjs(item.date).format('YYYY-MM'))
     }, [billList])
@@ -22,11 +22,26 @@ const Month = () => {
         return dayjs(new Date()).format('YYYY-MM')
     })
 
+    const [currentMonthList, setMonthList] = useState([])
+
+    const monthResult = useMemo(() => {
+        // 支出 / 收入 / 结余
+        const pay = currentMonthList.filter(item => item.type === 'pay').reduce((a, c) => a + c.money, 0)
+        const income = currentMonthList.filter(item => item.type === 'income').reduce((a, c) => a + c.money, 0)
+        return {
+            pay,
+            income,
+            total: pay + income
+        }
+    }, [currentMonthList])
+    // 确认回调
     const onConfirm = (date) => {
         setDateVisible(false)
         // 其它逻辑
         console.log(date)
         const formatDate = dayjs(date).format('YYYY-MM')
+        console.log(formatDate)
+        setMonthList(monthGroup[formatDate])
         setCurrentDate(formatDate)
     }
 
@@ -48,15 +63,15 @@ const Month = () => {
                     {/**统计区域 */}
                     <div className="twoLineOverview">
                         <div className="item">
-                            <span className="money">{100}</span>
+                            <span className="money">{monthResult.pay.toFixed(2)}</span>
                             <span className="type">支出</span>
                         </div>
                         <div className="item">
-                            <span className="money">{200}</span>
+                            <span className="money">{monthResult.income.toFixed(2)}</span>
                             <span className="type">收入</span>
                         </div>
                         <div className="item">
-                            <span className="money">{200}</span>
+                            <span className="money">{monthResult.total.toFixed(2)}</span>
                             <span className="type">结余</span>
                         </div>
                     </div>
