@@ -83,6 +83,12 @@
       "money": -20,
       "date": "2024-09-03T16:00:00.000Z",
       "useFor": "food"
+    },
+    {
+      "id": "e5ea",
+      "type": "pay",
+      "money": -20,
+      "useFor": "audio"
     }
   ]
 }

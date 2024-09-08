@@ -15,10 +15,7 @@ const New = () => {
     const [billType, setBillType] = useState('pay') // pay-支出 income-收入
 
     // 收集金额
-    const [money, setMoney] = useState(0)
-    const moneyChange = (value) => {
-        setMoney(value)
-    }
+    const [money, setMoney] = useState('')
     //收集账单类型
     const [useFor, setUseFor] = useState('')
     const dispatch = useDispatch()
@@ -74,7 +71,9 @@ const New = () => {
                     <div className='kaForm'>
                         <div className='date'>
                             <Icon type="calendar" className="icon" />
-                            <span className="text" onClick={()=>setDateVisible(true)}>{dayjs(date).format('YYYY-MM-DD')}</span>
+                            <span className="text" onClick={()=>setDateVisible(true)}>{
+                                dayjs(date).format('YYYY-MM-DD')===dayjs(new Date()).format('YYYY-MM-DD') ? '今天' : dayjs(date).format('YYYY-MM-DD')
+                            }</span>
                             {/**时间选择器 */}
                             <DatePicker
                                 className='kaDate'
@@ -90,7 +89,7 @@ const New = () => {
                                 placeholder="0.00"
                                 type="number"
                                 value={money}
-                                onChange={moneyChange}
+                                onChange={setMoney}
                             />
                             <span className="iconYuan">¥</span>
                         </div>
