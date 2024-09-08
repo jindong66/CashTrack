@@ -62,6 +62,27 @@
       "money": -100,
       "date": "2024-09-08T06:59:53.555Z",
       "useFor": "food"
+    },
+    {
+      "id": "a630",
+      "type": "income",
+      "money": 1500,
+      "date": "2024-09-08T07:13:53.481Z",
+      "useFor": "overtimepay"
+    },
+    {
+      "id": "20bb",
+      "type": "income",
+      "money": 20000,
+      "date": "2024-09-08T07:15:19.898Z",
+      "useFor": "salary"
+    },
+    {
+      "id": "3c51",
+      "type": "pay",
+      "money": -20,
+      "date": "2024-09-03T16:00:00.000Z",
+      "useFor": "food"
     }
   ]
 }
