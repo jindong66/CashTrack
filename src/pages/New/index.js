@@ -4,12 +4,15 @@ import './index.scss'
 import classNames from 'classnames'
 import { billListData } from '@/translations'
 import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
 
 const New = () => {
     const navigate = useNavigate()
+    // 1. 准备一个控制收入支出的状态
+    const [billType, setBillType] = useState('pay') // pay-支出 income-收入
     return (
         <div className='keepAccounts'>
-            <NavBar className='nav' onBack={()=>navigate(-1)}>
+            <NavBar className='nav' onBack={() => navigate(-1)}>
                 记一笔
             </NavBar>
 
@@ -17,13 +20,15 @@ const New = () => {
                 <div className='kaType'>
                     <Button
                         shape='rounded'
-                        className={classNames('selected')}
+                        className={classNames(billType === 'pay' ? 'selected' : '')}
+                        onClick={() => setBillType('pay')}
                     >
                         支出
                     </Button>
                     <Button
-                        className={classNames('')}
+                        className={classNames(billType === 'income' ? 'selected' : '')}
                         shape='rounded'
+                        onClick={() => setBillType('income')}
                     >
                         收入
                     </Button>
@@ -53,12 +58,13 @@ const New = () => {
             </div>
 
             <div className="kaTypeList">
-                {billListData['pay'].map(item=>{
+                {/**数据区域 */}
+                {billListData[billType].map(item => {
                     return (
                         <div className="kaType" key={item.type}>
                             <div className="title">{item.name}</div>
                             <div className="list">
-                                {item.list.map(item=>{
+                                {item.list.map(item => {
                                     return (
                                         <div
                                             className={classNames(
