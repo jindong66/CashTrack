@@ -14,6 +14,7 @@ const Year = () => {
 
     const thisYear = dayjs().get('year')
     const maxMonth = thisYear === selectedYear ? dayjs().get('month') + 1 : 12
+    console.log("maxMonth: " + maxMonth)
 
     // 按年做数据的分组
     const billList = useSelector(state => state.bill.billList)
@@ -25,6 +26,8 @@ const Year = () => {
     console.log(yearGroup)
 
     const [currentYearList, setYearList] = useState([])
+    console.log("currentYearList:")
+    console.log(currentYearList)
 
     // 年统计结果显示
     const yearResult = useMemo(() => {
@@ -50,6 +53,13 @@ const Year = () => {
         }
     }, [yearGroup])
     // END
+
+    // 确认回调
+    const onConfirm = (date) => {
+        onDateChange(date)
+        // 其他逻辑
+        setYearList(yearGroup[dayjs(date).format('YYYY')])
+    }
 
     return (
         <div className="billDetail">
@@ -90,7 +100,7 @@ const Year = () => {
                 visible={visible}
                 onClose={onHideDate}
                 max={new Date()}
-                onConfirm={onDateChange}
+                onConfirm={onConfirm}
             />
 
         </div>
