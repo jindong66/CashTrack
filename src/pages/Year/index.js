@@ -5,7 +5,10 @@ import { DatePicker, NavBar } from "antd-mobile"
 import classNames from "classnames"
 import { useSelector } from "react-redux"
 import { useEffect, useMemo, useState } from "react"
+import { getMonthOverview, getOverview } from '@/contant/billList'
 import _ from 'lodash'
+import TwoLineOverview from '@/components/TwoLineOverview'
+import OneLineOverview from '@/components/OneLineOverview'
 
 const Year = () => {
 
@@ -61,6 +64,15 @@ const Year = () => {
         setYearList(yearGroup[dayjs(date).format('YYYY')])
     }
 
+    const monthBillList = new Array(maxMonth)
+        .fill('')
+        .map((_, month) => {
+            return getMonthOverview(currentYearList, month)
+        })
+        .reverse()
+    console.log("monthBillList:")
+    console.log(monthBillList)
+
     return (
         <div className="billDetail">
             <NavBar className="nav" backIcon={false}>
@@ -73,23 +85,25 @@ const Year = () => {
             <div className="content">
                 {/* 统计区域 */}
                 <div className="overview">
-                    <div className='twoLineOverview'>
-                        <div className="item">
-                            <span className="money">{yearResult.pay.toFixed(2)}</span>
-                            <span className="type">支出</span>
-                        </div>
-                        <div className="item">
-                            <span className="money">{yearResult.income.toFixed(2)}</span>
-                            <span className="type">收入</span>
-                        </div>
-                        <div className="item">
-                            <span className="money">{yearResult.total.toFixed(2)}</span>
-                            <span className="type">结余</span>
-                        </div>
-                    </div>
+                    <TwoLineOverview
+                        pay={yearResult.pay}
+                        income={yearResult.income}
+                        className="overview"
+                    />
                 </div>
 
                 {/* 单月列表统计 */}
+                {monthBillList.map((item, index) => {
+                    return (
+                        <div
+                            className="monthBill"
+                            key={index}
+                        >
+                            <div className="date">{maxMonth - index}月</div>
+                            <OneLineOverview pay={item.pay} income={item.income} />
+                        </div>
+                    )
+                })}
             </div>
 
             {/**时间选择器 */}
